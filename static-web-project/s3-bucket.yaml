@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Bucket For Hosting A Static Website'
+       
+Resources: 
+ MyS3Bucket: 
+   Type: 'AWS::S3::Bucket'
+   Properties: 
+     BucketName: 'ash-s3-bucket-yaml'
+     WebsiteConfiguration: 
+       IndexDocument: 'index.html'
+     PublicAccessBlockConfiguration:
+       RestrictPublicBuckets: false
+
+
+ BucketPolicy: 
+   Type: 'AWS::S3::BucketPolicy'
+   Properties: 
+     Bucket: !Ref MyS3Bucket 
+     PolicyDocument:
+       Version: '2012-10-17'
+       Statement: 
+         - Sid : 'PublicReadGetObject'
+           Effect : 'Allow'
+           Principal: '*'
+           Action: 'S3:GetObject' 
+           Resource: !Sub 'arn:aws:s3:::ash-s3-bucket-yaml/*'
+
+
